@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.homedun.live.mapper.RoomMapper">
+
+    <resultMap id="roomMap" type="com.homedun.live.domain.Room">
+        <result column="id" property="id"/>
+        <result column="anchor_id" property="anchorId"/>
+        <result column="online" property="online"/>
+        <result column="created" property="created"/>
+        <result column="modified" property="modified"/>
+        <result column="tags" property="tags"/>
+        <result column="state" property="state"/>
+    </resultMap>
+
+    <sql id="columns">
+        `anchor_id`,
+        `title`,
+        `online`,
+        `created`,
+        `modified`,
+        `tags`,
+        `state`
+    </sql>
+
+    <insert id="add" parameterType="com.homedun.live.domain.Room">
+        insert into `room`(<include refid="columns"/>)
+        values(#{anchorId}, #{title}, 0, NOW(), NOW(), #{tags}, 1)
+    </insert>
+
+    <select id="query" resultMap="roomMap" parameterType="com.homedun.live.domain.Room">
+        SELECT id,<include refid="columns" />
+        FROM `room`
+        WHERE 1=1
+        <if test="id != null">
+            AND id=#{id}
+        </if>
+        <if test="anchorId != null">
+            AND anchor_id=#{anchorId}
+        </if>
+        <if test="title != null">
+            AND title like concat("%", #{title}, "%")
+        </if>
+
+        <if test="offset != null and limit !=null" >
+            limit #{offset}, #{limit}
+        </if>
+        <if test="offset == null or limit == null" >
+            limit 0, 100
+        </if>
+    </select>
+
+    <select id="count" resultType="java.lang.Long" parameterType="com.homedun.live.domain.Room">
+        SELECT count(1)
+        FROM `room`
+        WHERE 1=1
+        <if test="id != null">
+            ANd id=#{id}
+        </if>
+        <if test="anchorId != null">
+            AND anchor_id=#{anchorId}
+        </if>
+        <if test="title != null">
+            AND title like concat("%", #{title}, "%")
+        </if>
+    </select>
+
+    <update id="update" parameterType="com.homedun.live.domain.Room">
+        update `room`
+        SET
+        modified = NOW()
+        <if test="title != null">
+            ,title = #{title}
+        </if>
+        <if test="online != null">
+            ,online = online + #{online}
+        </if>
+        where id = #{id}
+    </update>
+</mapper>
