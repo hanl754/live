@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author hanliang.hl
  * @date 2018-04-20 下午10:35
  **/
-@RestController
+//@RestController
 public class HelloController {
 
     @GetMapping("/")

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.homedun.live.dao.UserDao">
+    <insert id="addUser" parameterType="com.homedun.live.domain.User">
+        INSERT INTO
+        user(`username`, `password`, `phone`, `gmt_create`, `gmt_modified`)
+        VALUES(#{username}, #{password}, #{phone}, NOW(), NOW())
+    </insert>
+
+
+</mapper>
