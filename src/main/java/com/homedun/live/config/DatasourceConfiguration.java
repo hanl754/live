@@ -13,21 +13,21 @@ import org.springframework.session.jdbc.config.annotation.web.http.EnableJdbcHtt
 import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
-import java.util.Collections;
+import java.util.Arrays;
 
 /**
  * @author hanliang.hl
  * @date 2018-04-21 上午10:17
  **/
 @Configuration
-@EnableJdbcHttpSession
+@EnableJdbcHttpSession(maxInactiveIntervalInSeconds=300)
 public class DatasourceConfiguration {
 
     @ConfigurationProperties(prefix = "spring.datasource.druid")
     @Bean(name = "druidDatasource", initMethod = "init", destroyMethod = "close")
     public DruidDataSource druidDatasource() {
         DruidDataSource dataSource = new DruidDataSource();
-        dataSource.setProxyFilters(Collections.singletonList(statFilter()));
+        dataSource.setProxyFilters(Arrays.asList(statFilter()));
         return dataSource;
     }
 

@@ -1,11 +1,13 @@
 package com.homedun.live.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.homedun.live.utils.SystemUtils;
 import org.springframework.session.Session;
 import org.springframework.session.jdbc.JdbcOperationsSessionRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.time.Duration;
 import java.util.Map;
@@ -18,13 +20,16 @@ import java.util.Map;
 @RequestMapping("/")
 public class MainController {
 
-    @Autowired
+    @Resource
     private JdbcOperationsSessionRepository repository;
 
     @RequestMapping("")
-    private String index(Map<String,Object> map) {
-        Session jdbcSession = this.repository.createSession();
-        jdbcSession.setAttribute("name", "hanliang");
+    private String index(HttpServletRequest request, Map<String, Object> map) {
+        HttpSession session = request.getSession();
+        String ip = (String) session.getAttribute("ip");
+        if(ip == null) {
+            session.setAttribute("ip", SystemUtils.getIpAddr(request));
+        }
         //map.put("channels", onlineChannels);
         return "index";
     }

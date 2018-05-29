@@ -1,13 +1,14 @@
 package com.homedun.live.utils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * @author hanliang.hl
  * @date 2018-05-29 下午9:47
  **/
-public class RandomUtil {
-    private RandomUtil() {}
+public class RandomUtils {
+    private RandomUtils() {}
 
     private static final char[] chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
 
