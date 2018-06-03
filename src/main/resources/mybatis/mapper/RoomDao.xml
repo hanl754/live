@@ -2,12 +2,42 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.homedun.live.dao.RoomDao">
     <insert id="createRoom">
-        INSERT INTO room(owner, title, gmt_create, gmt_modified)
-        VALUES (#{userId}, 'xxx的直播间', NOW(), NOW())
+        INSERT INTO room(owner, title, gmt_create, gmt_modified, online_users, topic, status)
+        VALUES (#{userId}, 'xxx的直播间', NOW(), NOW(),0, #{topic}, 0)
     </insert>
 
     <update id="modifyRoom">
         UPDATE room SET title=#{title}
         WHERE id=#{id}
     </update>
+    <update id="update" parameterType="com.homedun.live.domain.Room">
+        UPDATE `room` SET
+        `gmt_modified` = NOW()
+        <if test="status != null">
+            ,status = #{status}
+        </if>
+        <if test="title != null">
+            ,title = #{title}
+        </if>
+        <if test="topic != null">
+            ,topic = #{topic}
+        </if>
+        <if test="lastBroadcastStartTime != null">
+            ,last_broadcast_start_time = #{lastBroadcastStartTime}
+        </if>
+        WHERE id = #{id}
+    </update>
+
+    <select id="queryRoom" resultType="com.homedun.live.domain.Room">
+        SELECT * from `room`
+        WHERE owner = #{userId}
+    </select>
+    <select id="selectAllOnlineRooms" resultType="com.homedun.live.domain.Room">
+        select * from `room`
+        WHERE status = 1
+    </select>
+    <select id="queryByRoomId" resultType="com.homedun.live.domain.Room">
+        select * from `room`
+        WHERE id=#{roomId}
+    </select>
 </mapper>

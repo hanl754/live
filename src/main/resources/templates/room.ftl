@@ -14,6 +14,11 @@
 
     <!-- Custom styles for this template -->
     <link href="/css/style.css" rel="stylesheet">
+    <link href="http://vjs.zencdn.net/5.5.3/video-js.css" rel="stylesheet">
+    <!-- If you'd like to support IE8 -->
+    <script src="http://vjs.zencdn.net/ie8/1.1.1/videojs-ie8.min.js"></script>
+    <script src="/js/video.js"></script>
+    <script src="/js/videojs-contrib-hls.min.js" type="text/javascript"></script>
 </head>
 
 <body>
@@ -51,44 +56,18 @@
     </div>
 </nav>
 
-<!-- Main jumbotron for a primary marketing message or call to action -->
-<div class="jumbotron">
-    <div class="container">
-        <h1 class="display-3">Hello, world!</h1>
-        <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-        <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
-    </div>
-</div>
 
-<div class="container">
-    <!-- Example row of columns -->
-    <#list rooms as room>
-        <#if room_index%3 == 0>
-            <div class="row">
-        </#if>
-            <div class="col-md-4">
-                <h2>房间号:${room.id}</h2>
-                <p>
-                    <a href="/room/${room.id}/${room.topic}">
-                        <img src="/img/broadcast_cover.jpeg" />
-                    </a>
-                </p>
-            </div>
-        <#if rooms?size gt 3>
-            <#if room_index % 3 == 0 && room_index gt 0>
-                </div>
-            </#if>
-        </#if>
-        <#if room_index == rooms?size-1>
-            </div>
-        </#if>
-    </#list>
+<div class="video_main container">
+    <video id="my-video" class="video-js" controls autoplay preload="auto" width="640" height="400" data-setup="{}">
+        <!-- 如果上面的rtmp流无法播放，就播放hls流 -->
+        <source src="http://localhost/hls/${roomId}.m3u8" type='application/x-mpegURL'>
+    </video>
 
-    <hr>
+<hr>
 
-    <footer>
-        <p>&copy; Company 2018</p>
-    </footer>
+<footer>
+    <p>&copy; Company 2018</p>
+</footer>
 </div> <!-- /container -->
 
 

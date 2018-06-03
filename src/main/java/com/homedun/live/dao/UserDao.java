@@ -1,6 +1,7 @@
 package com.homedun.live.dao;
 
 import com.homedun.live.domain.User;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * @author hanliang.hl
@@ -13,4 +14,12 @@ public interface UserDao {
      * @return
      */
     int addUser(User user);
+
+    /**
+     * 查询用户
+     * @param phone
+     * @param password
+     * @return
+     */
+    User queryUser(@Param("phone") String phone, @Param("password") String password);
 }

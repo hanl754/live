@@ -1,8 +1,7 @@
 package com.homedun.live.service;
 
-import com.homedun.live.dao.OnlineChannelDao;
 import com.homedun.live.dao.RoomDao;
-import com.homedun.live.domain.OnlineChannel;
+import com.homedun.live.domain.Room;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -17,15 +16,12 @@ public class MainService {
     @Resource
     private RoomDao roomDao;
 
-    @Resource
-    private OnlineChannelDao onlineChannelDao;
-
     /**
      * 列出所有在线的频道
      * @return
      */
-    public List<OnlineChannel> listOnlineChannels() {
-        return onlineChannelDao.selectAll();
+    public List<Room> listOnlineChannels() {
+        return roomDao.selectAllOnlineRooms();
     }
 
 

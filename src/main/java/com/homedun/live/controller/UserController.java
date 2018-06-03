@@ -1,5 +1,6 @@
 package com.homedun.live.controller;
 
+import com.homedun.live.CheckInDTO;
 import com.homedun.live.dao.UserDao;
 import com.homedun.live.domain.User;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,8 +19,24 @@ public class UserController {
     @Resource
     private UserDao userDao;
 
+    // TODO: 2018/6/3 password encrypt
+
     @PostMapping("create")
     public int createUser(User user) {
         return userDao.addUser(user);
     }
+
+    /**
+     * 用户是否匹配
+     * @param phone
+     * @param password
+     * @return
+     */
+    @PostMapping("valid")
+    public boolean userValid(String phone, String password) {
+        User user = userDao.queryUser(phone, password);
+        return user != null;
+    }
+
+
 }

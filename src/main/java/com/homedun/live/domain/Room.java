@@ -21,4 +21,12 @@ public class Room {
     private Date gmtCreate;
 
     private Date gmtModified;
+
+    private Integer onlineUsers;
+
+    private String topic;
+
+    private Integer status;
+
+    private Date lastBroadcastStartTime;
 }
