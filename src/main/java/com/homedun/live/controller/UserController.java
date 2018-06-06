@@ -1,6 +1,5 @@
 package com.homedun.live.controller;
 
-import com.homedun.live.CheckInDTO;
 import com.homedun.live.dao.UserDao;
 import com.homedun.live.domain.User;
 import org.springframework.web.bind.annotation.PostMapping;
