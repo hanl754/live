@@ -41,7 +41,7 @@ public class MainController {
 
 
     @RequestMapping("/room/{id}")
-    private String room(@PathVariable("id")String id, @PathVariable("topic")String topic, Map<String, Object> map) {
+    private String room(@PathVariable("id")String id, Map<String, Object> map) {
         map.put("roomId", id);
         return "room";
     }
