@@ -59,8 +59,8 @@
 
 <div class="video_main container">
     <video id="my-video" class="video-js" controls autoplay preload="auto" width="640" height="400" data-setup="{}">
-        <!-- 如果上面的rtmp流无法播放，就播放hls流 -->
-        <source src="http://localhost/hls/${roomId}.m3u8" type='application/x-mpegURL'>
+        <!-- 替换成你的域名 -->
+        <source src="http://www.hdice.cn/hls/${roomId}.m3u8" type='application/x-mpegURL'>
     </video>
 
 <hr>

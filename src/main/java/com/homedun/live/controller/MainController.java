@@ -40,9 +40,8 @@ public class MainController {
     }
 
 
-    @RequestMapping("/room/{id}/{topic}")
+    @RequestMapping("/room/{id}")
     private String room(@PathVariable("id")String id, @PathVariable("topic")String topic, Map<String, Object> map) {
-        map.put("topic", topic);
         map.put("roomId", id);
         return "room";
     }

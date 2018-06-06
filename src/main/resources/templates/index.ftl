@@ -69,7 +69,7 @@
             <div class="col-md-4">
                 <h2>房间号:${room.id}</h2>
                 <p>
-                    <a href="/room/${room.id}/${room.topic}">
+                    <a href="/room/${room.id}">
                         <img src="/img/broadcast_cover.jpeg" />
                     </a>
                 </p>
