@@ -10,6 +10,7 @@
     <title>Jumbotron Template for Bootstrap</title>
 
     <!-- Bootstrap core CSS -->
+    <script src="/js/jquery.min.js" type="text/javascript"></script>
     <link href="/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
@@ -19,6 +20,7 @@
     <script src="http://vjs.zencdn.net/ie8/1.1.1/videojs-ie8.min.js"></script>
     <script src="/js/video.js"></script>
     <script src="/js/videojs-contrib-hls.min.js" type="text/javascript"></script>
+    <script src="/js/jquery.danmu.min.js" type="text/javascript"></script>
 </head>
 
 <body>
@@ -58,10 +60,14 @@
 
 
 <div class="video_main container">
-    <video id="my-video" class="video-js" controls autoplay preload="auto" width="640" height="400" data-setup="{}">
-        <!-- 替换成你的域名 -->
-        <source src="http://www.hdice.cn/hls/${roomId}.m3u8" type='application/x-mpegURL'>
-    </video>
+    <div style="position:relative; background-color: black ; height: 400px; width: 640px;">
+        <div id="danmu" style="width: 100% !important;"></div>
+        <video id="my-video" class="video-js" controls autoplay preload="auto" width="640" height="400" data-setup="{}">
+            <!-- 替换成你的域名 -->
+            <source src="http://www.hdice.cn/hls/${roomId}.m3u8" type='application/x-mpegURL'>
+        </video>
+    </div>
+
 
 <hr>
 
@@ -80,4 +86,35 @@
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="/js/ie10-viewport-bug-workaround.js"></script>
 </body>
+
+<script>
+    $(document).ready(function() {
+        var danmu = $("#danmu").danmu({
+            right: 0,
+            top: 0 ,
+            height: 439,  //弹幕区高度
+            zindex :1,   //弹幕区域z-index属性
+            speed:7000,      //滚动弹幕的默认速度，这是数值值得是弹幕滚过每672像素所需要的时间（毫秒）
+            sumTime:65535,   //弹幕流的总时间
+            danmuLoop:true,   //是否循环播放弹幕
+            defaultFontColor:"#FFFFFF",   //弹幕的默认颜色
+            fontSizeSmall:16,     //小弹幕的字号大小
+            FontSizeBig:24,       //大弹幕的字号大小
+            opacity:"0.9",			//默认弹幕透明度
+            topBottonDanmuTime:6000,   // 顶部底部弹幕持续时间（毫秒）
+            SubtitleProtection:false,     //是否字幕保护
+            positionOptimize:false,         //是否位置优化，位置优化是指像AB站那样弹幕主要漂浮于区域上半部分
+            maxCountInScreen: 40,   //屏幕上的最大的显示弹幕数目,弹幕数量过多时,优先加载最新的。
+            maxCountPerSec: 100      //每分秒钟最多的弹幕数目,弹幕数量过多时,优先加载最新的。
+        });
+
+        danmu.danmu('danmuStart');
+        $(document).on("click", function() {
+            var time = $('#danmu').data("nowTime")+1;
+            danmu.danmu("addDanmu",[
+                { text:"这是滚动弹幕" ,color:"white",size:1,position:0,time:time, isNew:1}
+            ]);
+        });
+    });
+</script>
 </html>
