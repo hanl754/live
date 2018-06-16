@@ -4,6 +4,8 @@ import com.alibaba.druid.util.StringUtils;
 import com.homedun.live.dao.RoomDao;
 import com.homedun.live.dao.UserDao;
 import com.homedun.live.domain.Room;
+import com.homedun.live.message.transport.RoomSubject;
+import com.homedun.live.utils.RandomUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -31,18 +34,23 @@ public class MainController {
     private RoomDao roomDao;
     @Resource
     private UserDao userDao;
+    @Resource
+    private RoomSubject roomSubject;
 
     @RequestMapping("/")
-    private String index(Map<String, Object> map) {
+    private String index(HttpServletRequest request, Map<String, Object> map) {
         List<Room> rooms = roomDao.selectAllOnlineRooms();
         map.put("rooms", rooms);
+        HttpSession session = request.getSession();
+        session.setAttribute("nick", RandomUtils.random(8));
         return "index";
     }
 
 
     @RequestMapping("/room/{id}")
-    private String room(@PathVariable("id")String id, Map<String, Object> map) {
+    private String room(@PathVariable("id")String id, HttpServletRequest request, Map<String, Object> map) {
         map.put("roomId", id);
+        map.put("nick", request.getSession().getAttribute("nick"));
         return "room";
     }
 

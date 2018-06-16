@@ -21,6 +21,8 @@
     <script src="/js/video.js"></script>
     <script src="/js/videojs-contrib-hls.min.js" type="text/javascript"></script>
     <script src="/js/jquery.danmu.min.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/sockjs/0.3.4/sockjs.min.js"></script>
+
 </head>
 
 <body>
@@ -60,15 +62,34 @@
 
 
 <div class="video_main container">
-    <div style="position:relative; background-color: black ; height: 400px; width: 640px;">
-        <div id="danmu" style="width: 100% !important;"></div>
-        <video id="my-video" class="video-js" controls autoplay preload="auto" width="640" height="400" data-setup="{}">
-            <!-- 替换成你的域名 -->
-            <source src="http://www.hdice.cn/hls/${roomId}.m3u8" type='application/x-mpegURL'>
-        </video>
-    </div>
-
-
+   <div class="row">
+       <div class="col-md-7">
+           <div style="position:relative; background-color: black ; height: 400px; width: 640px;">
+               <div id="danmu" style="width: 100% !important;"></div>
+               <video id="my-video" class="video-js" controls autoplay preload="auto" width="640" height="400" data-setup="{}">
+                   <!-- 替换成你的域名 -->
+                   <source src="http://www.hdice.cn/hls/${roomId}.m3u8" type='application/x-mpegURL'>
+               </video>
+           </div>
+       </div>
+       <div class="col-md-5">
+           <div class="row">
+               <div class="col-lg-12">
+                   <div id="console" style="border: 1px solid #EEEEEE;height: 363px;"></div>
+               </div>
+           </div>
+           <div class="row">
+               <div class="col-lg-12">
+                   <div class="input-group">
+                       <input id="msg_content" type="text" class="form-control" placeholder="hehe...">
+                       <span class="input-group-btn">
+                       <button id="msg_send" class="btn btn-secondary" type="button">发送</button>
+                       </span>
+                   </div>
+               </div>
+           </div><!-- /.row -->
+       </div>
+   </div>
 <hr>
 
 <footer>
@@ -92,7 +113,7 @@
         var danmu = $("#danmu").danmu({
             right: 0,
             top: 0 ,
-            height: 439,  //弹幕区高度
+            height: 400,  //弹幕区高度
             zindex :1,   //弹幕区域z-index属性
             speed:7000,      //滚动弹幕的默认速度，这是数值值得是弹幕滚过每672像素所需要的时间（毫秒）
             sumTime:65535,   //弹幕流的总时间
@@ -109,12 +130,52 @@
         });
 
         danmu.danmu('danmuStart');
-        $(document).on("click", function() {
-            var time = $('#danmu').data("nowTime")+1;
-            danmu.danmu("addDanmu",[
-                { text:"这是滚动弹幕" ,color:"white",size:1,position:0,time:time, isNew:1}
-            ]);
+
+        connect();
+
+        //连接websocket
+        function connect() {
+            var target = "/chatRoom";
+            ws = new SockJS(target);
+            ws.onopen = function () {
+                log('Info: WebSocket connection opened.');
+            };
+            ws.onmessage = function (event) {
+                var msg = JSON.parse(event.data);
+                log(msg.from + ": " + msg.content);
+                var time = $('#danmu').data("nowTime")+1;
+                danmu.danmu("addDanmu",[
+                    { text:msg.content ,color:"white",size:1,position:0,time:time, isNew:1}
+                ]);
+            };
+            ws.onclose = function () {
+                log('Info: WebSocket connection closed.');
+            };
+        }
+
+        function disconnect() {
+            if (ws != null) {
+                ws.close();
+                ws = null;
+            }
+        }
+
+        $("#msg_send").click(function() {
+            var message = $("#msg_content").val();
+            ws.send(message);
         });
+
+        function log(message) {
+            var console = document.getElementById('console');
+            var p = document.createElement('p');
+            p.style.wordWrap = 'break-word';
+            p.appendChild(document.createTextNode(message));
+            console.appendChild(p);
+            while (console.childNodes.length > 100) {
+                console.removeChild(console.firstChild);
+            }
+            console.scrollTop = console.scrollHeight;
+        }
     });
 </script>
 </html>
