@@ -75,7 +75,7 @@
        <div class="col-md-5">
            <div class="row">
                <div class="col-lg-12">
-                   <div id="console" style="border: 1px solid #EEEEEE;height: 363px;"></div>
+                   <div id="console" style="border: 1px solid #EEEEEE;height: 363px;overflow: auto"></div>
                </div>
            </div>
            <div class="row">
