@@ -7,6 +7,7 @@ import com.homedun.live.domain.Room;
 import com.homedun.live.message.transport.RoomSubject;
 import com.homedun.live.utils.RandomUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,10 +33,9 @@ public class MainController {
 
     @Resource
     private RoomDao roomDao;
-    @Resource
-    private UserDao userDao;
-    @Resource
-    private RoomSubject roomSubject;
+
+    @Value("${domain}")
+    private String domain;
 
     @RequestMapping("/")
     private String index(HttpServletRequest request, Map<String, Object> map) {
@@ -51,6 +51,7 @@ public class MainController {
     private String room(@PathVariable("id")String id, HttpServletRequest request, Map<String, Object> map) {
         map.put("roomId", id);
         map.put("nick", request.getSession().getAttribute("nick"));
+        map.put("domain", domain);
         return "room";
     }
 

@@ -68,7 +68,7 @@
                <div id="danmu" style="width: 100% !important;"></div>
                <video id="my-video" class="video-js" controls autoplay preload="auto" width="640" height="400" data-setup="{}">
                    <!-- 替换成你的域名 -->
-                   <source src="http://www.hdice.cn/hls/${roomId}.m3u8" type='application/x-mpegURL'>
+                   <source src="http://${domain}/hls/${roomId}.m3u8" type='application/x-mpegURL'>
                </video>
            </div>
        </div>
