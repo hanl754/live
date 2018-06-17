@@ -25,7 +25,8 @@ URL:rtmp://127.0.0.1/hls
 其中1代表房间号，你可以在room表中插入一条记录（或者先通过post /users/create然后使用userId请求/createRoom 创建一个房间。不推荐，因为缺少页面，操作比较复杂，xxx代表你插入的topic。因为推流的时候做了一下权限验证：on_publish http://127.0.0.1:8080/checkIn;
 
 
-####效果图
+#### 效果图
+
 ![index](./readmeResources/index.png)
 ![room](./readmeResources/room.png)
 
