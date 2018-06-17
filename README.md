@@ -20,9 +20,9 @@
 5. run LiveApplication
 
 #### Obs推流配置
-URL:rtmp://127.0.0.1/hls
-流名称:1?topic=xxxx
-其中1代表房间号，你可以在room表中插入一条记录（或者先通过post /users/create然后使用userId请求/createRoom 创建一个房间。不推荐，因为缺少页面，操作比较复杂，xxx代表你插入的topic。因为推流的时候做了一下权限验证：on_publish http://127.0.0.1:8080/checkIn;
+1. URL:rtmp://127.0.0.1/hls
+2. 流名称:1?topic=xxxx
+3. 其中1代表房间号，你可以在room表中插入一条记录（或者先通过post /users/create然后使用userId请求/createRoom 创建一个房间。不推荐，因为缺少页面，操作比较复杂，xxx代表你插入的topic。因为推流的时候做了一下权限验证：on_publish http://127.0.0.1:8080/checkIn;
 
 
 #### 效果图
